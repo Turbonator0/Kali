@@ -14,22 +14,22 @@
 
 static void RageAntiAIm()
 {
-    const char* yType[] = {
-        "NONE",
-        "Static",
-        "Balanced",
-        "Jitter",
-        "Brainfuck Fake Fake AA",
-	"JitterRandom",
-	"P100 SPIN",
-    };
+const char* yType[] = {
+    "NONE",
+    "Static",
+    "Balanced",
+    "Jitter",
+    "Brainfuck Fake Fake AA",
+    "JitterRandom",
+    "P100 SPIN",
+};
 const char* pitchType[] = {
-        "Up",
-        "Down",
+    "Up",
+    "Down",
 	"Zero",
 	"Emotion",
 	"Fake Zero",
-        "Fake Up",
+    "Fake Up",
 	"Fake Down",
 	"Fake Jitter",
 };
@@ -105,7 +105,7 @@ const char* lbyType[] = {
     ImGui::Combo(XORSTR("##LbyType"), (int*)&Settings::AntiAim::RageAntiAim::lby::type, lbyType, IM_ARRAYSIZE(lbyType));
 
     }
-   ImGui::Columns(1);
+    ImGui::Columns(1);
     ImGui::Text(XORSTR("Edging(Alfa)"));
     
     ImGui::Columns(2, nullptr, false);
@@ -141,40 +141,40 @@ const char* lbyType[] = {
     ImGui::Checkbox(XORSTR("##Manual Anti Aim"), &Settings::AntiAim::ManualAntiAim::Enable);
     ImGui::SameLine();
     ImGui::Text(XORSTR("Manual AntiAim"));
-if (Settings::AntiAim::ManualAntiAim::Enable){
-    //For player to move right
-    ImGui::Text("Align Right");
-    ImGui::SameLine();
-    ImGui::PushItemWidth(-1);
-    UI::KeyBindButton(&Settings::AntiAim::ManualAntiAim::RightButton);
-    ImGui::PopItemWidth();
+    if (Settings::AntiAim::ManualAntiAim::Enable){
+        //For player to move right
+        ImGui::Text("Align Right");
+        ImGui::SameLine();
+        ImGui::PushItemWidth(-1);
+        UI::KeyBindButton(&Settings::AntiAim::ManualAntiAim::RightButton);
+        ImGui::PopItemWidth();
 
-    // For player Move back
-    ImGui::Text("Align Back");
-    ImGui::SameLine();
-    ImGui::PushItemWidth(-1);
-    UI::KeyBindButton(&Settings::AntiAim::ManualAntiAim::backButton);
-    ImGui::PopItemWidth();
+        // For player Move back
+        ImGui::Text("Align Back");
+        ImGui::SameLine();
+        ImGui::PushItemWidth(-1);
+        UI::KeyBindButton(&Settings::AntiAim::ManualAntiAim::backButton);
+        ImGui::PopItemWidth();
 
-    //For player to move left
-    ImGui::Text("Align Left");
-    ImGui::SameLine();
-    ImGui::PushItemWidth(-1);
-    UI::KeyBindButton(&Settings::AntiAim::ManualAntiAim::LeftButton);
-    ImGui::PopItemWidth();
-    // END
-    ImGui::Checkbox(XORSTR("Auto Direction"), &Settings::AntiAim::AutoInvert);
+        //For player to move left
+        ImGui::Text("Align Left");
+        ImGui::SameLine();
+        ImGui::PushItemWidth(-1);
+        UI::KeyBindButton(&Settings::AntiAim::ManualAntiAim::LeftButton);
+        ImGui::PopItemWidth();
+        // END
+        ImGui::Checkbox(XORSTR("Auto Direction"), &Settings::AntiAim::AutoInvert);
 
-}
+    }
 }
 
 static void LegitAntiAim()
 {
     const char* LegitAAType[] = {
-                                "OverWatchProof",
-                                "FakeLegitAA",
-                                "Experimental"
-                                };
+        "OverWatchProof",
+        "FakeLegitAA",
+        "Experimental"
+    };
     /*
     * part where legit anti aim ui constructed
     */
@@ -219,15 +219,32 @@ const char* aaState[] = {
         "Lby Update",
 };
 
-            ImGui::Combo(XORSTR("##AASTATES"), (int*)Settings::AntiAim::RageAntiAim::customaa::aastate, aaState, IM_ARRAYSIZE(aaState));
+    ImGui::Combo(XORSTR("##AASTATES"), (int*) &Settings::AntiAim::RageAntiAim::customaa::aastate, aaState, IM_ARRAYSIZE(aaState));
 	switch (Settings::AntiAim::RageAntiAim::customaa::aastate)
 	{
 	case AAState::STAND:
 	    ImGui::SliderInt(XORSTR("##YAWANGLE"), &Settings::AntiAim::RageAntiAim::customaa::standang, -180, 180, "Yaw Desync Angle : %.0f");
 	break;
-        case AAState::AIR:
-            ImGui::SliderInt(XORSTR("##YAWANGLE"), &Settings::AntiAim::RageAntiAim::customaa::airang, -180, 180, "Yaw Desync Angle : %.0f");
-        break;
+
+    case AAState::AIR:
+        ImGui::SliderInt(XORSTR("##YAWANGLE"), &Settings::AntiAim::RageAntiAim::customaa::airang, -180, 180, "Yaw Desync Angle : %.0f");
+    break;
+
+    case AAState::MOVE:
+	    ImGui::SliderInt(XORSTR("##YAWANGLE"), &Settings::AntiAim::RageAntiAim::customaa::moveang, -180, 180, "Yaw Desync Angle : %.0f");
+	break;
+
+    case AAState::SLOLWWALK:
+        ImGui::SliderInt(XORSTR("##YAWANGLE"), &Settings::AntiAim::RageAntiAim::customaa::slowang, -180, 180, "Yaw Desync Angle : %.0f");
+    break;
+
+    case AAState::LBY:
+	    ImGui::SliderInt(XORSTR("##YAWANGLE"), &Settings::AntiAim::RageAntiAim::customaa::lbyang, -180, 180, "Yaw Desync Angle : %.0f");
+	break;
+
+    case AAState::FAKEDUCK:
+        ImGui::SliderInt(XORSTR("##YAWANGLE"), &Settings::AntiAim::RageAntiAim::customaa::duckang, -180, 180, "Yaw Desync Angle : %.0f");
+    break;
 	}
         ImGui::Columns(2, nullptr, false);
         {
@@ -267,17 +284,22 @@ void HvH::RenderTab()
         switch (Settings::AntiAim::Type::antiaimType)
         {
         case AntiAimType::LegitAntiAim:
-           if ( ImGui::Checkbox(XORSTR("##EnableLegitAim"), &Settings::AntiAim::LegitAntiAim::enable) )
+           if ( ImGui::Checkbox(XORSTR("##EnableLegitAim"), &Settings::AntiAim::LegitAntiAim::enable) ){
                 Settings::AntiAim::RageAntiAim::enable = false;
+                Settings::AntiAim::RageAntiAim::customaa::enabled = false;
+                }
             break;
         case AntiAimType::RageAntiAim:
-            if ( ImGui::Checkbox(XORSTR("##EnableRageAntiAim"), &Settings::AntiAim::RageAntiAim::enable) )
+            if ( ImGui::Checkbox(XORSTR("##EnableRageAntiAim"), &Settings::AntiAim::RageAntiAim::enable) ){
                 Settings::AntiAim::LegitAntiAim::enable = false;
+                Settings::AntiAim::RageAntiAim::customaa::enabled = false;
+                }
             break;
         case AntiAimType::Lagacy:
-            ImGui::Checkbox(XORSTR("##ENABLECustomAA"), &Settings::AntiAim::RageAntiAim::customaa::enabled);
+            if (ImGui::Checkbox(XORSTR("##ENABLECustomAA"), &Settings::AntiAim::RageAntiAim::customaa::enabled)){
                 Settings::AntiAim::LegitAntiAim::enable = false;
                 Settings::AntiAim::RageAntiAim::enable = false;
+                }
             break;
         default:
             break;
@@ -310,55 +332,60 @@ void HvH::RenderTab()
     {
         ImGui::BeginChild(XORSTR("HVH2"), ImVec2(0, 0), false);
         {
-            ImGui::Checkbox(XORSTR("Angle Indicator"), &Settings::AngleIndicator::enabled);
-            ImGui::Checkbox(XORSTR("Fake Lag"), &Settings::FakeLag::enabled);
-            ImGui::SameLine();
-            ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 15, XORSTR("Amount: %0.f"));
-			ImGui::Checkbox(XORSTR("Adaptive Fake Lag"), &Settings::FakeLag::adaptive);
-		  if(Settings::FakeLag::enabled == true)
+        ImGui::Checkbox(XORSTR("Angle Indicator"), &Settings::AngleIndicator::enabled);
+        ImGui::Checkbox(XORSTR("Fake Lag"), &Settings::FakeLag::enabled);
+        ImGui::SameLine();
+        ImGui::SliderInt(XORSTR("##FAKELAGAMOUNT"), &Settings::FakeLag::value, 0, 15, XORSTR("Amount: %0.f"));
+        ImGui::Checkbox(XORSTR("Adaptive Fake Lag"), &Settings::FakeLag::adaptive);
+        
+        if(Settings::FakeLag::enabled == true)
 	    {
-		ImGui::Checkbox(XORSTR("Fake Lag Mic Fix"), &Settings::FakeLag::microphone);
-		ImGui::Text(XORSTR("MicKey"));
-		ImGui::SameLine();
-		UI::KeyBindButton(&Settings::FakeLag::microphoneKey);
+            ImGui::Checkbox(XORSTR("Fake Lag Mic Fix"), &Settings::FakeLag::microphone);
+            ImGui::Text(XORSTR("MicKey"));
+            ImGui::SameLine();
+            UI::KeyBindButton(&Settings::FakeLag::microphoneKey);
 	    }
 //ImGui::Checkbox(XORSTR("Random Fake Lag"), &Settings::AntiAim::randomLag::enabled);
         //   UI::KeyBindButton(&Settings::FakeLag::ckey);
 
-                        ImGui::Checkbox(XORSTR("Slow Walk"), &Settings::AntiAim::SlowWalk::enabled);
-if (Settings::AntiAim::SlowWalk::enabled){
+        ImGui::Checkbox(XORSTR("Slow Walk"), &Settings::AntiAim::SlowWalk::enabled);
+        if (Settings::AntiAim::SlowWalk::enabled){
             ImGui::SameLine(); 
             UI::KeyBindButton(&Settings::AntiAim::SlowWalk::key);
             ImGui::Combo(XORSTR("##SLOWTYPE"), (int*)& Settings::AntiAim::SlowWalk::mode, slowType, IM_ARRAYSIZE(slowType));
-if (Settings::AntiAim::SlowWalk::mode == SlowMode::SAFETY)
-    ImGui::SliderFloat(XORSTR("##SlowWalkSPeed"), &Settings::AntiAim::SlowWalk::Speed, 0, 100, XORSTR("Amount: %0.f"));
-}
-                        ImGui::Checkbox(XORSTR("QuickPeek"), &Settings::Ragebot::quickpeek::enabled);
-			if(Settings::Ragebot::quickpeek::enabled){
-				            UI::KeyBindButton(&Settings::Ragebot::quickpeek::key);
-								}
-            ImGui::Checkbox(XORSTR("FakeDuck"), &Settings::AntiAim::FakeDuck::enabled);
+            
+            if (Settings::AntiAim::SlowWalk::mode == SlowMode::SAFETY){
+                ImGui::SliderFloat(XORSTR("##SlowWalkSPeed"), &Settings::AntiAim::SlowWalk::Speed, 0, 100, XORSTR("Amount: %0.f"));
+            }
+        }
+        ImGui::Checkbox(XORSTR("QuickPeek"), &Settings::Ragebot::quickpeek::enabled);
+        
+        if(Settings::Ragebot::quickpeek::enabled){
+            UI::KeyBindButton(&Settings::Ragebot::quickpeek::key);
+        }
+        ImGui::Checkbox(XORSTR("FakeDuck"), &Settings::AntiAim::FakeDuck::enabled);
         ImGui::SameLine(); 
-            UI::KeyBindButton(&Settings::AntiAim::FakeDuck::fakeDuckKey);
+        UI::KeyBindButton(&Settings::AntiAim::FakeDuck::fakeDuckKey);
 		
 	    ImGui::Checkbox(XORSTR("Resolver Override"), &Settings::Resolver::manual);
-	if (Settings::Resolver::manual){
+	    if (Settings::Resolver::manual){
             ImGui::Checkbox(XORSTR("Force Bruteforce"), &Settings::Resolver::forcebrute);
-	    if (!Settings::Resolver::forcebrute){
-            ImGui::SliderFloat(XORSTR("##GOALPITCH"), &Settings::Resolver::Pitch, -89, 89, XORSTR("Amount: %0.f"));
-            ImGui::SliderFloat(XORSTR("##GOALFEETYAW"), &Settings::Resolver::goalFeetYaw, 0, 180, XORSTR("Amount: %0.f"));
-            ImGui::SliderFloat(XORSTR("##EYEANGLES"), &Settings::Resolver::EyeAngles, -60, 60, XORSTR("Amount: %0.f"));
-						}
-	}
-            ImGui::Checkbox(XORSTR("Spin on air"), &Settings::AntiAim::airspin::enabled);
-            ImGui::Checkbox(XORSTR("Animation Memes"), &Settings::AnimMemes::enabled);
-            ImGui::Checkbox(XORSTR("Choke OnShot"), &Settings::AntiAim::ChokeOnShot);
+            if (!Settings::Resolver::forcebrute)
+            {
+                ImGui::SliderFloat(XORSTR("##GOALPITCH"), &Settings::Resolver::Pitch, -89, 89, XORSTR("Amount: %0.f"));
+                ImGui::SliderFloat(XORSTR("##GOALFEETYAW"), &Settings::Resolver::goalFeetYaw, 0, 180, XORSTR("Amount: %0.f"));
+                ImGui::SliderFloat(XORSTR("##EYEANGLES"), &Settings::Resolver::EyeAngles, -60, 60, XORSTR("Amount: %0.f"));
+            }
+	    }
+        ImGui::Checkbox(XORSTR("Spin on air"), &Settings::AntiAim::airspin::enabled);
+        ImGui::Checkbox(XORSTR("Animation Memes"), &Settings::AnimMemes::enabled);
+        ImGui::Checkbox(XORSTR("Choke OnShot"), &Settings::AntiAim::ChokeOnShot);
 
-            ImGui::Checkbox(XORSTR("Fake Peek"), &Settings::AntiAim::RageAntiAim::fakepeek);
+        ImGui::Checkbox(XORSTR("Fake Peek"), &Settings::AntiAim::RageAntiAim::fakepeek);
 		if (Settings::AntiAim::RageAntiAim::fakepeek)
-		  UI::KeyBindButton(&Settings::AntiAim::RageAntiAim::fakeheadkey);
+            UI::KeyBindButton(&Settings::AntiAim::RageAntiAim::fakeheadkey);
 
-            ImGui::EndChild();
+        ImGui::EndChild();
         }
     }
 }
